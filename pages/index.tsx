@@ -1,43 +1,44 @@
 import type { NextPage } from 'next';
+import styled from 'styled-components';
+import Title from '../components/Title';
+import Form from '../components/Form';
+import Section from '../components/Section';
 import Button from '../components/Button';
 import Input from '../components/Input';
-import Form from '../components/Form';
 import Label from '../components/Label';
-import styled from 'styled-components';
 import Wrapper from '../components/Wrapper';
 
-const Payment = styled(Label)`
-  font-size: 2.5rem;
-  margin: 0;
-`;
-const Calculate = styled(Wrapper)`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 1rem;
-`;
-const FullInput = styled(Input)`
-  grid-column: 1/-1;
-`;
-const FullButton = styled(Button)`
-  grid-column: 1/-1;
+const Description = styled(Section)`
+  grid-row: 1/-5;
 `;
 
 const Home: NextPage = () => {
   return (
     <>
+      <Title>Кредитный калькулятор</Title>
       <Form>
-        <Label>Рассчитайте свой кредит:</Label>
-        <Calculate>
-          <FullInput placeholder="Сколько вам нужно денег?" type="number" />
-          <Input placeholder="Срок кредита" />
-          <Input placeholder="Ставка, %" type="number" />
-          <FullButton>Рассчитать</FullButton>
-        </Calculate>
-
-        <Label>Ежемесячный платеж составит:</Label>
-        <Wrapper>
-          <Payment>15000 ₽</Payment>
-        </Wrapper>
+        <Description>
+          Чтобы расчитать стоимость кредита, пожалуйста, введите стоимость
+          кредита в рублях, минимальная сумма 10 000 рублей, максимальная 10
+          миллионов рублей.
+          <br />
+          <br />
+          Процент по кредитам зависит от того - что это за кредит и что за банк,
+          если ипотека это обычно от 8 и до 15, обычный кредит - до 30, быстрый
+          займ или другие ненадежные источники до 500
+          <br />
+          <br />
+          Обычно кредит берется от 1 месяца до 36 месяцев (3х лет), если вы
+          расчитываете ипотеку.
+        </Description>
+        <Input placeholder="Введите стоимость кредита" type="number" />
+        <Input
+          placeholder="Введите процентную ставку"
+          type="number"
+          max={1000}
+        />
+        <Input placeholder="Введите срок кредитования" type="number" />
+        <Button>Рассчитать</Button>
       </Form>
     </>
   );

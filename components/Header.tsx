@@ -5,13 +5,10 @@ export interface Props {
 }
 
 const Title = styled.h1`
-  margin: 0;
-  line-height: 1.15;
-  font-size: 3rem;
+  line-height: 42px;
+  font-size: 36px;
   text-align: center;
-  padding: 1rem;
-  border-bottom: 2px solid #fff;
-  filter: drop-shadow(0 0 5px #000);
+  margin: 32px 32px 0 32px;
 `;
 
 const Header = (props: Props) => {

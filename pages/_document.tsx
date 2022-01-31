@@ -5,7 +5,7 @@ export default function Document() {
     <Html lang="ru">
       <Head>
         <link
-          href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
           rel="stylesheet"
         />
       </Head>
