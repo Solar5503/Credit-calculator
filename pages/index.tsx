@@ -5,7 +5,7 @@ import Form from '../components/Form';
 import Section from '../components/Section';
 import Button from '../components/Button';
 import Input from '../components/Input';
-import Label from '../components/Label';
+import AfterForInput from '../components/AfterForInput';
 import Wrapper from '../components/Wrapper';
 
 const Description = styled(Section)`
@@ -31,13 +31,22 @@ const Home: NextPage = () => {
           Обычно кредит берется от 1 месяца до 36 месяцев (3х лет), если вы
           расчитываете ипотеку.
         </Description>
-        <Input placeholder="Введите стоимость кредита" type="number" />
-        <Input
-          placeholder="Введите процентную ставку"
-          type="number"
-          max={1000}
-        />
-        <Input placeholder="Введите срок кредитования" type="number" />
+        <Wrapper>
+          <Input placeholder="Введите стоимость кредита" type="number" />
+          <AfterForInput placeholder="'руб'"></AfterForInput>
+        </Wrapper>
+        <Wrapper>
+          <Input
+            placeholder="Введите процентную ставку"
+            type="number"
+            max={1000}
+          />
+          <AfterForInput placeholder="'%'"></AfterForInput>
+        </Wrapper>
+        <Wrapper>
+          <Input placeholder="Введите срок кредитования" type="number" />
+          <AfterForInput placeholder="'мес'"></AfterForInput>
+        </Wrapper>
         <Button>Рассчитать</Button>
       </Form>
     </>
