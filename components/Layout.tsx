@@ -8,7 +8,7 @@ const Main = styled.main`
   width: 1440px;
   margin-top: 32px;
   padding: 32px;
-  padding-bottom: 30px;
+  padding-bottom: 14px;
 `;
 
 const Layout = ({ children }: { children: React.ReactNode }) => {

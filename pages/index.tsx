@@ -7,6 +7,9 @@ import Button from '../components/Button';
 import Input from '../components/Input';
 import AfterForInput from '../components/AfterForInput';
 import Wrapper from '../components/Wrapper';
+import Label from '../components/Label';
+import Output from '../components/Output';
+import AfterForOutput from '../components/AfterForOutput';
 
 const Description = styled(Section)`
   grid-row: 1/-5;
@@ -31,24 +34,58 @@ const Home: NextPage = () => {
           Обычно кредит берется от 1 месяца до 36 месяцев (3х лет), если вы
           расчитываете ипотеку.
         </Description>
-        <Wrapper>
-          <Input placeholder="Введите стоимость кредита" type="number" />
-          <AfterForInput placeholder="'руб'"></AfterForInput>
-        </Wrapper>
-        <Wrapper>
+        <div>
+          <Input
+            placeholder="Введите стоимость кредита"
+            type="number"
+            autoFocus
+            min={10000}
+            max={10000000}
+            required
+          />
+          <AfterForInput placeholder="'руб'" />
+        </div>
+        <div>
           <Input
             placeholder="Введите процентную ставку"
             type="number"
+            min={0}
             max={1000}
+            required
           />
-          <AfterForInput placeholder="'%'"></AfterForInput>
-        </Wrapper>
-        <Wrapper>
-          <Input placeholder="Введите срок кредитования" type="number" />
-          <AfterForInput placeholder="'мес'"></AfterForInput>
-        </Wrapper>
+          <AfterForInput placeholder="'%'" />
+        </div>
+        <div>
+          <Input
+            placeholder="Введите срок кредитования"
+            type="number"
+            min={1}
+            required
+          />
+          <AfterForInput placeholder="'мес'" />
+        </div>
         <Button>Рассчитать</Button>
       </Form>
+      <Wrapper>
+        <Label>Ваш ежемесячный платёж будет составлять:</Label>
+        <Output placeholder="8 300" disabled />
+        <AfterForOutput placeholder="'руб'" />
+      </Wrapper>
+      <Wrapper>
+        <Label>Для такого кредита рекомендованный доход:</Label>
+        <Output placeholder="14 000" disabled />
+        <AfterForOutput placeholder="'руб'" />
+      </Wrapper>
+      <Wrapper>
+        <Label>Налоговый вычет, который можно получить:</Label>
+        <Output placeholder="2 000" disabled />
+        <AfterForOutput placeholder="'руб'" />
+      </Wrapper>
+      <Wrapper>
+        <Label>Переплата за срок кредитования:</Label>
+        <Output placeholder="4 000" disabled />
+        <AfterForOutput placeholder="'руб'" />
+      </Wrapper>
     </>
   );
 };
