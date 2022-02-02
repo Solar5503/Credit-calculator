@@ -9,6 +9,10 @@ const Label = styled.label`
   border-radius: 10px 0px 0px 10px;
   padding: 16px;
   padding-right: 26px;
+
+  @media (max-width: 1220px) {
+    border-radius: 10px 10px 0px 0px;
+  }
 `;
 
 export default Label;

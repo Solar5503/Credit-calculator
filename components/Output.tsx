@@ -17,6 +17,10 @@ const Output = styled.input`
   & + label {
     position: relative;
   }
+
+  @media (max-width: 1220px) {
+    border-radius: 0px 0px 10px 10px;
+  }
 `;
 
 export default Output;
