@@ -10,16 +10,53 @@ import Wrapper from '../components/Wrapper';
 import Label from '../components/Label';
 import Output from '../components/Output';
 import AfterForOutput from '../components/AfterForOutput';
+import { useState } from 'react';
 
 const Description = styled(Section)`
   grid-row: 1/-5;
 `;
 
 const Home: NextPage = () => {
+  const [loanCost, setLoanCost] = useState(0);
+  const [percent, setPercent] = useState(0);
+  const [month, setMonth] = useState(0);
+
+  let payment: number = 0;
+  let income: number = 0;
+  let overPayment: number = 0;
+  let taxDeduction: number = 0;
+  // const [payment, setPayment] = useState(0);
+  // const [income, setIncome] = useState(0);
+  // const [overPayment, setOverPayment] = useState(0);
+  // const [taxDeduction, setTaxDeduction] = useState(0);
+
+  const onSubmit = (e: any) => {
+    e.preventDefault();
+
+    if (loanCost < 10000 || loanCost > 10000000) return;
+    if (percent < 0 || percent > 1000) return;
+    if (month < 1) return;
+
+    const percentMonth = percent / 12 / 100;
+    const factorAnnuat =
+      (percentMonth * (1 + percentMonth) ** month) /
+      ((1 + percentMonth) ** month - 1);
+
+    payment = Math.round(loanCost * factorAnnuat);
+    income = Math.round(payment / 0.5);
+    overPayment = payment * month - loanCost;
+    taxDeduction = Math.round(overPayment * 0.13);
+
+    console.log(factorAnnuat);
+    console.log('payment', Math.round(loanCost * factorAnnuat));
+    console.log('income', Math.round(payment / 0.5));
+    console.log('overPayment', payment * month - loanCost);
+    console.log('tax', Math.round(overPayment * 0.13));
+  };
   return (
     <>
       <Title>Кредитный калькулятор</Title>
-      <Form>
+      <Form onSubmit={onSubmit}>
         <Description>
           Чтобы расчитать стоимость кредита, пожалуйста, введите стоимость
           кредита в рублях, минимальная сумма 10 000 рублей, максимальная 10
@@ -38,10 +75,12 @@ const Home: NextPage = () => {
           <Input
             placeholder="Введите стоимость кредита"
             type="number"
-            autoFocus
+            autoFocus={true}
             min={10000}
             max={10000000}
             required
+            value={loanCost}
+            onChange={(e) => setLoanCost(+e.target.value)}
           />
           <AfterForInput placeholder="'руб'" />
         </div>
@@ -52,6 +91,8 @@ const Home: NextPage = () => {
             min={0}
             max={1000}
             required
+            value={percent}
+            onChange={(e) => setPercent(+e.target.value)}
           />
           <AfterForInput placeholder="'%'" />
         </div>
@@ -61,29 +102,47 @@ const Home: NextPage = () => {
             type="number"
             min={1}
             required
+            value={month}
+            onChange={(e) => setMonth(+e.target.value)}
           />
           <AfterForInput placeholder="'мес'" />
         </div>
-        <Button>Рассчитать</Button>
+        <Button type="submit">Рассчитать</Button>
       </Form>
       <Wrapper>
         <Label>Ваш ежемесячный платёж будет составлять:</Label>
-        <Output placeholder="8 300" disabled />
+        <Output
+          placeholder="Нажмите кнопку 'Рассчитать'"
+          disabled
+          value={payment}
+        />
         <AfterForOutput placeholder="'руб'" />
       </Wrapper>
       <Wrapper>
         <Label>Для такого кредита рекомендованный доход:</Label>
-        <Output placeholder="14 000" disabled />
+        <Output
+          placeholder="Нажмите кнопку 'Рассчитать'"
+          disabled
+          value={income}
+        />
         <AfterForOutput placeholder="'руб'" />
       </Wrapper>
       <Wrapper>
         <Label>Налоговый вычет, который можно получить:</Label>
-        <Output placeholder="2 000" disabled />
+        <Output
+          placeholder="Нажмите кнопку 'Рассчитать'"
+          disabled
+          value={taxDeduction}
+        />
         <AfterForOutput placeholder="'руб'" />
       </Wrapper>
       <Wrapper>
         <Label>Переплата за срок кредитования:</Label>
-        <Output placeholder="4 000" disabled />
+        <Output
+          placeholder="Нажмите кнопку 'Рассчитать'"
+          disabled
+          value={overPayment}
+        />
         <AfterForOutput placeholder="'руб'" />
       </Wrapper>
     </>

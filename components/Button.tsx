@@ -11,6 +11,10 @@ const Button = styled.button`
   min-width: 1rem;
   font-weight: bold;
   text-transform: uppercase;
+
+  &:active {
+    transform: scale(0.98);
+  }
 `;
 
 export default Button;
