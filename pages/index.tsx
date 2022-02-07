@@ -20,21 +20,13 @@ const Home: NextPage = () => {
   const [loanCost, setLoanCost] = useState(0);
   const [percent, setPercent] = useState(0);
   const [month, setMonth] = useState(0);
-
-  let payment: number = 0;
-  let income: number = 0;
-  let overPayment: number = 0;
-  let taxDeduction: number = 0;
-  // const [payment, setPayment] = useState(0);
-  // const [income, setIncome] = useState(0);
-  // const [overPayment, setOverPayment] = useState(0);
-  // const [taxDeduction, setTaxDeduction] = useState(0);
+  const [output, setOutput] = useState<number[]>([]);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
 
     if (loanCost < 10000 || loanCost > 10000000) return;
-    if (percent < 0 || percent > 1000) return;
+    if (percent < 1 || percent > 1000) return;
     if (month < 1) return;
 
     const percentMonth = percent / 12 / 100;
@@ -42,16 +34,12 @@ const Home: NextPage = () => {
       (percentMonth * (1 + percentMonth) ** month) /
       ((1 + percentMonth) ** month - 1);
 
-    payment = Math.round(loanCost * factorAnnuat);
-    income = Math.round(payment / 0.5);
-    overPayment = payment * month - loanCost;
-    taxDeduction = Math.round(overPayment * 0.13);
+    const payment = Math.round(loanCost * factorAnnuat);
+    const income = Math.round(payment / 0.5);
+    const overPayment = payment * month - loanCost;
+    const taxDeduction = Math.round(overPayment * 0.13);
 
-    console.log(factorAnnuat);
-    console.log('payment', Math.round(loanCost * factorAnnuat));
-    console.log('income', Math.round(payment / 0.5));
-    console.log('overPayment', payment * month - loanCost);
-    console.log('tax', Math.round(overPayment * 0.13));
+    setOutput([payment, income, taxDeduction, overPayment]);
   };
   return (
     <>
@@ -88,7 +76,7 @@ const Home: NextPage = () => {
           <Input
             placeholder="Введите процентную ставку"
             type="number"
-            min={0}
+            min={1}
             max={1000}
             required
             value={percent}
@@ -114,7 +102,7 @@ const Home: NextPage = () => {
         <Output
           placeholder="Нажмите кнопку 'Рассчитать'"
           disabled
-          value={payment}
+          value={`${output.length > 0 ? output[0].toLocaleString() : output}`}
         />
         <AfterForOutput placeholder="'руб'" />
       </Wrapper>
@@ -123,7 +111,7 @@ const Home: NextPage = () => {
         <Output
           placeholder="Нажмите кнопку 'Рассчитать'"
           disabled
-          value={income}
+          value={`${output.length > 0 ? output[1].toLocaleString() : output}`}
         />
         <AfterForOutput placeholder="'руб'" />
       </Wrapper>
@@ -132,7 +120,7 @@ const Home: NextPage = () => {
         <Output
           placeholder="Нажмите кнопку 'Рассчитать'"
           disabled
-          value={taxDeduction}
+          value={`${output.length > 0 ? output[2].toLocaleString() : output}`}
         />
         <AfterForOutput placeholder="'руб'" />
       </Wrapper>
@@ -141,7 +129,7 @@ const Home: NextPage = () => {
         <Output
           placeholder="Нажмите кнопку 'Рассчитать'"
           disabled
-          value={overPayment}
+          value={`${output.length > 0 ? output[3].toLocaleString() : output}`}
         />
         <AfterForOutput placeholder="'руб'" />
       </Wrapper>
