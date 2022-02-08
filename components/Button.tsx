@@ -15,6 +15,9 @@ const Button = styled.button`
   &:active {
     transform: scale(0.98);
   }
+  &.on {
+    background-color: #006aff;
+  }
 `;
 
 export default Button;

@@ -44,6 +44,10 @@ const Home: NextPage = () => {
     const taxDeduction = Math.round(overPayment * 0.13);
 
     setOutput([payment, income, taxDeduction, overPayment]);
+
+    setLoanCost('');
+    setPercent('');
+    setMonth('');
   };
   return (
     <>
@@ -99,7 +103,16 @@ const Home: NextPage = () => {
           />
           <AfterForInput placeholder="'мес'" />
         </div>
-        <Button type="submit">Рассчитать</Button>
+        <Button
+          type="submit"
+          className={`${
+            loanCost.length > 0 || percent.length > 0 || month.length > 0
+              ? 'on'
+              : ''
+          }`}
+        >
+          Рассчитать
+        </Button>
       </Form>
       <Wrapper>
         <Label>Ваш ежемесячный платёж будет составлять:</Label>
