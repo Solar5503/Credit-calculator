@@ -105,6 +105,11 @@ const Home: NextPage = () => {
         </div>
         <Button
           type="submit"
+          disabled={
+            loanCost.length > 0 || percent.length > 0 || month.length > 0
+              ? false
+              : true
+          }
           className={`${
             loanCost.length > 0 || percent.length > 0 || month.length > 0
               ? 'on'
