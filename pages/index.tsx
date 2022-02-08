@@ -17,26 +17,30 @@ const Description = styled(Section)`
 `;
 
 const Home: NextPage = () => {
-  const [loanCost, setLoanCost] = useState(0);
-  const [percent, setPercent] = useState(0);
-  const [month, setMonth] = useState(0);
+  const [loanCost, setLoanCost] = useState('');
+  const [percent, setPercent] = useState('');
+  const [month, setMonth] = useState('');
   const [output, setOutput] = useState<number[]>([]);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
 
-    if (loanCost < 10000 || loanCost > 10000000) return;
-    if (percent < 1 || percent > 1000) return;
-    if (month < 1) return;
+    const loanCostNum: number = +loanCost;
+    const percentNum: number = +percent;
+    const monthNum: number = +month;
 
-    const percentMonth = percent / 12 / 100;
+    if (loanCostNum < 10000 || loanCostNum > 10000000) return;
+    if (percentNum < 1 || percentNum > 1000) return;
+    if (monthNum < 1) return;
+
+    const percentMonth = percentNum / 12 / 100;
     const factorAnnuat =
-      (percentMonth * (1 + percentMonth) ** month) /
-      ((1 + percentMonth) ** month - 1);
+      (percentMonth * (1 + percentMonth) ** monthNum) /
+      ((1 + percentMonth) ** monthNum - 1);
 
-    const payment = Math.round(loanCost * factorAnnuat);
+    const payment = Math.round(loanCostNum * factorAnnuat);
     const income = Math.round(payment / 0.5);
-    const overPayment = payment * month - loanCost;
+    const overPayment = payment * monthNum - loanCostNum;
     const taxDeduction = Math.round(overPayment * 0.13);
 
     setOutput([payment, income, taxDeduction, overPayment]);
@@ -68,7 +72,7 @@ const Home: NextPage = () => {
             max={10000000}
             required
             value={loanCost}
-            onChange={(e) => setLoanCost(+e.target.value)}
+            onChange={(e) => setLoanCost(e.target.value)}
           />
           <AfterForInput placeholder="'руб'" />
         </div>
@@ -80,7 +84,7 @@ const Home: NextPage = () => {
             max={1000}
             required
             value={percent}
-            onChange={(e) => setPercent(+e.target.value)}
+            onChange={(e) => setPercent(e.target.value)}
           />
           <AfterForInput placeholder="'%'" />
         </div>
@@ -91,7 +95,7 @@ const Home: NextPage = () => {
             min={1}
             required
             value={month}
-            onChange={(e) => setMonth(+e.target.value)}
+            onChange={(e) => setMonth(e.target.value)}
           />
           <AfterForInput placeholder="'мес'" />
         </div>
