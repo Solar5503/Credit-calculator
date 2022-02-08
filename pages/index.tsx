@@ -10,7 +10,7 @@ import Wrapper from '../components/Wrapper';
 import Label from '../components/Label';
 import Output from '../components/Output';
 import AfterForOutput from '../components/AfterForOutput';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 const Description = styled(Section)`
   grid-row: 1/-5;
@@ -70,36 +70,42 @@ const Home: NextPage = () => {
         <div>
           <Input
             placeholder="Введите стоимость кредита"
-            type="number"
+            type="text"
             autoFocus={true}
             min={10000}
             max={10000000}
             required
-            value={loanCost}
-            onChange={(e) => setLoanCost(e.target.value)}
+            value={loanCost
+              .replace(/\D/g, '')
+              .replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}
+            onChange={(e) => setLoanCost(e.target.value.replace(/\D/g, ''))}
           />
           <AfterForInput placeholder="'руб'" />
         </div>
         <div>
           <Input
             placeholder="Введите процентную ставку"
-            type="number"
+            type="text"
             min={1}
             max={1000}
             required
-            value={percent}
-            onChange={(e) => setPercent(e.target.value)}
+            value={percent
+              .replace(/\D/g, '')
+              .replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}
+            onChange={(e) => setPercent(e.target.value.replace(/\D/g, ''))}
           />
           <AfterForInput placeholder="'%'" />
         </div>
         <div>
           <Input
             placeholder="Введите срок кредитования"
-            type="number"
+            type="text"
             min={1}
             required
-            value={month}
-            onChange={(e) => setMonth(e.target.value)}
+            value={month
+              .replace(/\D/g, '')
+              .replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}
+            onChange={(e) => setMonth(e.target.value.replace(/\D/g, ''))}
           />
           <AfterForInput placeholder="'мес'" />
         </div>
