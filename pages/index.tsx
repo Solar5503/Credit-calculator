@@ -22,6 +22,10 @@ const Home: NextPage = () => {
   const [month, setMonth] = useState('');
   const [output, setOutput] = useState<number[]>([]);
 
+  const runk = function (value: string): string {
+    return value.replace(/\D/g, '').replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
+  };
+
   const onSubmit = (e: any) => {
     e.preventDefault();
 
@@ -74,13 +78,11 @@ const Home: NextPage = () => {
           <Input
             placeholder="Введите стоимость кредита"
             type="text"
-            autoFocus={true}
+            autoFocus
             maxLength={10}
             required
             color={loanCost.length > 4 || loanCost.length === 0 ? '' : 'red'}
-            value={loanCost
-              .replace(/\D/g, '')
-              .replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}
+            value={runk(loanCost)}
             onChange={(e) => setLoanCost(e.target.value.replace(/\D/g, ''))}
           />
           <AfterForInput placeholder="'руб'" />
@@ -91,9 +93,7 @@ const Home: NextPage = () => {
             type="text"
             maxLength={5}
             required
-            value={percent
-              .replace(/\D/g, '')
-              .replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}
+            value={runk(percent)}
             onChange={(e) => setPercent(e.target.value.replace(/\D/g, ''))}
           />
           <AfterForInput placeholder="'%'" />
@@ -104,9 +104,7 @@ const Home: NextPage = () => {
             type="text"
             maxLength={3}
             required
-            value={month
-              .replace(/\D/g, '')
-              .replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}
+            value={runk(month)}
             onChange={(e) => setMonth(e.target.value.replace(/\D/g, ''))}
           />
           <AfterForInput placeholder="'мес'" />
