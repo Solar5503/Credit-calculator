@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 const Input = styled.input`
-  border: 2px solid #9298cf;
+  border: 2px solid;
+  border-color: ${(props) => props.color || '#9298cf'};
   border-radius: 10px;
   color: #373e81;
   display: block;
@@ -18,6 +19,9 @@ const Input = styled.input`
   }
   & + label {
     position: relative;
+  }
+  &:invalid:not(:placeholder-shown) {
+    border-color: red;
   }
 `;
 

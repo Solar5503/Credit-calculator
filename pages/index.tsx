@@ -10,7 +10,7 @@ import Wrapper from '../components/Wrapper';
 import Label from '../components/Label';
 import Output from '../components/Output';
 import AfterForOutput from '../components/AfterForOutput';
-import { useState, useRef } from 'react';
+import React, { useState } from 'react';
 
 const Description = styled(Section)`
   grid-row: 1/-5;
@@ -29,9 +29,12 @@ const Home: NextPage = () => {
     const percentNum: number = +percent;
     const monthNum: number = +month;
 
-    if (loanCostNum < 10000 || loanCostNum > 10000000) return;
-    if (percentNum < 1 || percentNum > 1000) return;
-    if (monthNum < 1) return;
+    if (loanCostNum < 10000 || loanCostNum > 10000000)
+      return alert('Введите корректную стоимость кредита, пожалуйста!');
+    if (percentNum < 1 || percentNum > 1000)
+      return alert('Введите корректную процентную ставку, пожалуйста!');
+    if (monthNum < 1 || monthNum > 1000)
+      return alert('Введите корректный срок кредитования, пожалуйста!');
 
     const percentMonth = percentNum / 12 / 100;
     const factorAnnuat =
@@ -72,9 +75,9 @@ const Home: NextPage = () => {
             placeholder="Введите стоимость кредита"
             type="text"
             autoFocus={true}
-            min={10000}
-            max={10000000}
+            maxLength={10}
             required
+            color={loanCost.length > 4 || loanCost.length === 0 ? '' : 'red'}
             value={loanCost
               .replace(/\D/g, '')
               .replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}
@@ -86,8 +89,7 @@ const Home: NextPage = () => {
           <Input
             placeholder="Введите процентную ставку"
             type="text"
-            min={1}
-            max={1000}
+            maxLength={5}
             required
             value={percent
               .replace(/\D/g, '')
@@ -100,7 +102,7 @@ const Home: NextPage = () => {
           <Input
             placeholder="Введите срок кредитования"
             type="text"
-            min={1}
+            maxLength={3}
             required
             value={month
               .replace(/\D/g, '')
