@@ -136,8 +136,8 @@ const Home: NextPage = () => {
           disabled
           value={`${output.length > 0 ? output[0].toLocaleString() : output}`}
         />
-        <AfterForOutput placeholder="'руб'" />
       </Wrapper>
+      <AfterForOutput>руб</AfterForOutput>
       <Wrapper>
         <Label>Для такого кредита рекомендованный доход:</Label>
         <Output
@@ -145,8 +145,8 @@ const Home: NextPage = () => {
           disabled
           value={`${output.length > 0 ? output[1].toLocaleString() : output}`}
         />
-        <AfterForOutput placeholder="'руб'" />
       </Wrapper>
+      <AfterForOutput>руб</AfterForOutput>
       <Wrapper>
         <Label>Налоговый вычет, который можно получить:</Label>
         <Output
@@ -154,8 +154,8 @@ const Home: NextPage = () => {
           disabled
           value={`${output.length > 0 ? output[2].toLocaleString() : output}`}
         />
-        <AfterForOutput placeholder="'руб'" />
       </Wrapper>
+      <AfterForOutput>руб</AfterForOutput>
       <Wrapper>
         <Label>Переплата за срок кредитования:</Label>
         <Output
@@ -163,8 +163,8 @@ const Home: NextPage = () => {
           disabled
           value={`${output.length > 0 ? output[3].toLocaleString() : output}`}
         />
-        <AfterForOutput placeholder="'руб'" />
       </Wrapper>
+      <AfterForOutput>руб</AfterForOutput>
     </>
   );
 };
