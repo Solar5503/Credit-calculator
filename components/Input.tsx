@@ -17,9 +17,6 @@ const Input = styled.input`
     outline: none;
     border-color: #777;
   }
-  & + label {
-    position: relative;
-  }
   &:invalid:not(:placeholder-shown) {
     border-color: red;
   }
