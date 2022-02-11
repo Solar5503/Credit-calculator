@@ -21,6 +21,7 @@ const Home: NextPage = () => {
   const [percent, setPercent] = useState("");
   const [month, setMonth] = useState("");
   const [output, setOutput] = useState<number[]>([]);
+  const [activeButton, setActiveButton] = useState<boolean>(false);
 
   const loanCostInput = useRef() as React.MutableRefObject<HTMLInputElement>;
   useEffect(() => loanCostInput.current.focus(), []);
@@ -55,10 +56,17 @@ const Home: NextPage = () => {
 
     setOutput([payment, income, taxDeduction, overPayment]);
 
-    setLoanCost("");
-    setPercent("");
-    setMonth("");
+    setActiveButton(false);
   };
+
+  useEffect(() => {
+    if (loanCost.length > 0 && percent.length > 0 && month.length > 0) {
+      setActiveButton(true);
+    } else {
+      setActiveButton(false);
+    }
+  }, [loanCost, percent, month]);
+
   return (
     <>
       <Title>Кредитный калькулятор</Title>
@@ -115,16 +123,8 @@ const Home: NextPage = () => {
         </div>
         <Button
           type="submit"
-          disabled={
-            loanCost.length > 0 || percent.length > 0 || month.length > 0
-              ? false
-              : true
-          }
-          className={`${
-            loanCost.length > 0 || percent.length > 0 || month.length > 0
-              ? "on"
-              : ""
-          }`}
+          disabled={!activeButton}
+          className={`${activeButton ? "on" : ""}`}
         >
           Рассчитать
         </Button>
