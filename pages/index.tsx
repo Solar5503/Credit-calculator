@@ -10,7 +10,7 @@ import Wrapper from '../components/Wrapper';
 import Label from '../components/Label';
 import Output from '../components/Output';
 import AfterForOutput from '../components/AfterForOutput';
-import React, { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const Description = styled(Section)`
   grid-row: 1/-5;
@@ -21,6 +21,9 @@ const Home: NextPage = () => {
   const [percent, setPercent] = useState('');
   const [month, setMonth] = useState('');
   const [output, setOutput] = useState<number[]>([]);
+
+  const loanCostInput = useRef() as React.MutableRefObject<HTMLInputElement>;
+  useEffect(() => loanCostInput.current.focus(), []);
 
   const runk = function (value: string): string {
     return value.replace(/\D/g, '').replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
@@ -78,6 +81,7 @@ const Home: NextPage = () => {
           <Input
             placeholder="Введите стоимость кредита"
             type="text"
+            ref={loanCostInput}
             autoFocus
             maxLength={10}
             required
