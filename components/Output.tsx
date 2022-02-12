@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Output = styled.input`
   color: #373e81;
@@ -12,10 +12,6 @@ const Output = styled.input`
 
   &::placeholder {
     color: #373e81;
-  }
-
-  & + label {
-    position: relative;
   }
 
   @media (max-width: 1220px) {

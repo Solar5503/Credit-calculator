@@ -15,10 +15,7 @@ const Input = styled.input`
   }
   &:focus {
     outline: none;
-    border-color: #777;
-  }
-  & + label {
-    position: relative;
+    border-color: #006aff;
   }
   &:invalid:not(:placeholder-shown) {
     border-color: red;

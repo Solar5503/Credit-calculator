@@ -1,32 +1,33 @@
-import type { NextPage } from 'next';
-import styled from 'styled-components';
-import Title from '../components/Title';
-import Form from '../components/Form';
-import Section from '../components/Section';
-import Button from '../components/Button';
-import Input from '../components/Input';
-import AfterForInput from '../components/AfterForInput';
-import Wrapper from '../components/Wrapper';
-import Label from '../components/Label';
-import Output from '../components/Output';
-import AfterForOutput from '../components/AfterForOutput';
-import { useState, useEffect, useRef } from 'react';
+import type { NextPage } from "next";
+import styled from "styled-components";
+import Title from "../components/Title";
+import Form from "../components/Form";
+import Section from "../components/Section";
+import Button from "../components/Button";
+import Input from "../components/Input";
+import AfterForInput from "../components/AfterForInput";
+import Wrapper from "../components/Wrapper";
+import Label from "../components/Label";
+import Output from "../components/Output";
+import AfterForOutput from "../components/AfterForOutput";
+import { useState, useEffect, useRef } from "react";
 
 const Description = styled(Section)`
   grid-row: 1/-5;
 `;
 
 const Home: NextPage = () => {
-  const [loanCost, setLoanCost] = useState('');
-  const [percent, setPercent] = useState('');
-  const [month, setMonth] = useState('');
+  const [loanCost, setLoanCost] = useState("");
+  const [percent, setPercent] = useState("");
+  const [month, setMonth] = useState("");
   const [output, setOutput] = useState<number[]>([]);
+  const [activeButton, setActiveButton] = useState<boolean>(false);
 
   const loanCostInput = useRef() as React.MutableRefObject<HTMLInputElement>;
   useEffect(() => loanCostInput.current.focus(), []);
 
   const runk = function (value: string): string {
-    return value.replace(/\D/g, '').replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
+    return value.replace(/\D/g, "").replace(/(\d)(?=(\d{3})+$)/g, "$1 ");
   };
 
   const onSubmit = (e: any) => {
@@ -37,11 +38,11 @@ const Home: NextPage = () => {
     const monthNum: number = +month;
 
     if (loanCostNum < 10000 || loanCostNum > 10000000)
-      return alert('Введите корректную стоимость кредита, пожалуйста!');
+      return alert("Введите корректную стоимость кредита, пожалуйста!");
     if (percentNum < 1 || percentNum > 1000)
-      return alert('Введите корректную процентную ставку, пожалуйста!');
+      return alert("Введите корректную процентную ставку, пожалуйста!");
     if (monthNum < 1 || monthNum > 1000)
-      return alert('Введите корректный срок кредитования, пожалуйста!');
+      return alert("Введите корректный срок кредитования, пожалуйста!");
 
     const percentMonth = percentNum / 12 / 100;
     const factorAnnuat =
@@ -55,10 +56,17 @@ const Home: NextPage = () => {
 
     setOutput([payment, income, taxDeduction, overPayment]);
 
-    setLoanCost('');
-    setPercent('');
-    setMonth('');
+    setActiveButton(false);
   };
+
+  useEffect(() => {
+    if (loanCost.length > 0 && percent.length > 0 && month.length > 0) {
+      setActiveButton(true);
+    } else {
+      setActiveButton(false);
+    }
+  }, [loanCost, percent, month]);
+
   return (
     <>
       <Title>Кредитный калькулятор</Title>
@@ -85,11 +93,11 @@ const Home: NextPage = () => {
             autoFocus
             maxLength={10}
             required
-            color={loanCost.length > 4 || loanCost.length === 0 ? '' : 'red'}
+            color={loanCost.length > 4 || loanCost.length === 0 ? "" : "red"}
             value={runk(loanCost)}
-            onChange={(e) => setLoanCost(e.target.value.replace(/\D/g, ''))}
+            onChange={(e) => setLoanCost(e.target.value.replace(/\D/g, ""))}
           />
-          <AfterForInput placeholder="'руб'" />
+          <AfterForInput>руб</AfterForInput>
         </div>
         <div>
           <Input
@@ -98,9 +106,9 @@ const Home: NextPage = () => {
             maxLength={5}
             required
             value={runk(percent)}
-            onChange={(e) => setPercent(e.target.value.replace(/\D/g, ''))}
+            onChange={(e) => setPercent(e.target.value.replace(/\D/g, ""))}
           />
-          <AfterForInput placeholder="'%'" />
+          <AfterForInput>%</AfterForInput>
         </div>
         <div>
           <Input
@@ -109,22 +117,14 @@ const Home: NextPage = () => {
             maxLength={3}
             required
             value={runk(month)}
-            onChange={(e) => setMonth(e.target.value.replace(/\D/g, ''))}
+            onChange={(e) => setMonth(e.target.value.replace(/\D/g, ""))}
           />
-          <AfterForInput placeholder="'мес'" />
+          <AfterForInput>мес</AfterForInput>
         </div>
         <Button
           type="submit"
-          disabled={
-            loanCost.length > 0 || percent.length > 0 || month.length > 0
-              ? false
-              : true
-          }
-          className={`${
-            loanCost.length > 0 || percent.length > 0 || month.length > 0
-              ? 'on'
-              : ''
-          }`}
+          disabled={!activeButton}
+          className={`${activeButton ? "on" : ""}`}
         >
           Рассчитать
         </Button>
@@ -136,8 +136,8 @@ const Home: NextPage = () => {
           disabled
           value={`${output.length > 0 ? output[0].toLocaleString() : output}`}
         />
-        <AfterForOutput placeholder="'руб'" />
       </Wrapper>
+      <AfterForOutput>руб</AfterForOutput>
       <Wrapper>
         <Label>Для такого кредита рекомендованный доход:</Label>
         <Output
@@ -145,8 +145,8 @@ const Home: NextPage = () => {
           disabled
           value={`${output.length > 0 ? output[1].toLocaleString() : output}`}
         />
-        <AfterForOutput placeholder="'руб'" />
       </Wrapper>
+      <AfterForOutput>руб</AfterForOutput>
       <Wrapper>
         <Label>Налоговый вычет, который можно получить:</Label>
         <Output
@@ -154,8 +154,8 @@ const Home: NextPage = () => {
           disabled
           value={`${output.length > 0 ? output[2].toLocaleString() : output}`}
         />
-        <AfterForOutput placeholder="'руб'" />
       </Wrapper>
+      <AfterForOutput>руб</AfterForOutput>
       <Wrapper>
         <Label>Переплата за срок кредитования:</Label>
         <Output
@@ -163,8 +163,8 @@ const Home: NextPage = () => {
           disabled
           value={`${output.length > 0 ? output[3].toLocaleString() : output}`}
         />
-        <AfterForOutput placeholder="'руб'" />
       </Wrapper>
+      <AfterForOutput>руб</AfterForOutput>
     </>
   );
 };
